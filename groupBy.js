@@ -44,11 +44,11 @@ const group = function (element, groups) {
 };
 
 const groupBy = function (array) {
-  if (array.length === 1) {
-    return [array];
+  const groups = [];
+  for (let index = 0; index < array.length; index++) {
+    group(array[index], groups);
   }
-  const groups = groupBy(array.slice(1));
-  return group(array[0], groups);
+  return groups;
 };
 
 const main = function () {
