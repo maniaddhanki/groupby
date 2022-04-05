@@ -1,22 +1,21 @@
-const toArray = function (element) {
-  return [].concat(element);
-};
-
-const areBothArrays = function (array1, array2) {
-  return Array.isArray(array1) && Array.isArray(array2);
+const areEqual = function (element1, element2) {
+  if (!Array.isArray(element1) || !Array.isArray(element2)) {
+    return element1 === element2;
+  }
+  return areArraysEqual(element1, element2);
 };
 
 const areArraysEqual = function (array1, array2) {
+  if (!Array.isArray(array1) || !Array.isArray(array2)) {
+    return false;
+  }
+
   if (array1.length !== array2.length) {
     return false;
   }
+
   for (let index = 0; index < array1.length; index++) {
-    if (areBothArrays(array1[index], array2[index])) {
-      if (areArraysEqual(array1[index], array2[index])) {
-        return true;
-      };
-    }
-    else if (array1[index] !== array2[index]) {
+    if (!areEqual(array1[index], array2[index])) {
       return false;
     }
   }
@@ -26,7 +25,7 @@ const areArraysEqual = function (array1, array2) {
 const getLocation = function (element, array) {
   for (let index = 0; index < array.length; index++) {
     const groupFirstElement = array[index][0];
-    if (areArraysEqual(toArray(groupFirstElement), toArray(element))) {
+    if (areEqual(groupFirstElement, element)) {
       return index;
     }
   }
