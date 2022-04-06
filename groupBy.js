@@ -1,21 +1,18 @@
+const isArray = Array.isArray;
+
 const areEqual = function (element1, element2) {
-  if (element1 === element2) {
-    return true;
-  }
-  return areArraysEqual(element1, element2);
-};
+  const areArrays = isArray(element1) && isArray(element2);
 
-const areArraysEqual = function (array1, array2) {
-  if (!Array.isArray(array1) || !Array.isArray(array2)) {
+  if (!areArrays) {
+    return element1 === element2;
+  }
+
+  if (element1.length !== element2.length) {
     return false;
   }
 
-  if (array1.length !== array2.length) {
-    return false;
-  }
-
-  for (let index = 0; index < array1.length; index++) {
-    if (!areEqual(array1[index], array2[index])) {
+  for (let index = 0; index < element1.length; index++) {
+    if (!areEqual(element1[index], element2[index])) {
       return false;
     }
   }
@@ -33,7 +30,7 @@ const locateGroup = function (element, array) {
 };
 
 const addToGroup = function (groups, element) {
-  let groupIndex = locateGroup(element, groups);
+  const groupIndex = locateGroup(element, groups);
   if (groupIndex < 0) {
     groups.push([element]);
     return groups;
@@ -42,7 +39,7 @@ const addToGroup = function (groups, element) {
   return groups;
 };
 
-const groupBy = function (array) {
+const groupSimilarElement = function (array) {
   const groups = [];
   for (let index = 0; index < array.length; index++) {
     addToGroup(groups, array[index]);
@@ -51,15 +48,15 @@ const groupBy = function (array) {
 };
 
 const main = function () {
-  console.log(groupBy([1, 2, 1]));
-  console.log(groupBy([1, 2, 3, 1, 2, 4]));
-  console.log(groupBy([[1, 1], 1, [1, 1], 1]));
-  console.log(groupBy([[1, 2], '1,2', '1,2', [1, 2]]));
-  console.log(groupBy(['1', 2, 1, 'a', 'b', 'a']));
-  console.log(groupBy([[], 2, 1, []]));
-  console.log(groupBy([[1, 2], [1, 2]]));
-  console.log(groupBy([[], 1, [], 1]));
-  console.log(groupBy([[[1], [2]], [[1], [2]]]));
+  console.log(groupSimilarElement([1, 2, 1]));
+  console.log(groupSimilarElement([1, 2, 3, 1, 2, 4]));
+  console.log(groupSimilarElement([[1, 1], 1, [1, 1], 1]));
+  console.log(groupSimilarElement([[1, 2], '1,2', '1,2', [1, 2]]));
+  console.log(groupSimilarElement(['1', 2, 1, 'a', 'b', 'a']));
+  console.log(groupSimilarElement([[], 2, 1, []]));
+  console.log(groupSimilarElement([[1, 2], [1, 2]]));
+  console.log(groupSimilarElement([[], 1, [], 1]));
+  console.log(groupSimilarElement([[[1], [2]], [[1], [2]]]));
 };
 
 main();
