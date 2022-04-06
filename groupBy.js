@@ -1,6 +1,6 @@
 const areEqual = function (element1, element2) {
-  if (!Array.isArray(element1) || !Array.isArray(element2)) {
-    return element1 === element2;
+  if (element1 === element2) {
+    return true;
   }
   return areArraysEqual(element1, element2);
 };
@@ -22,7 +22,7 @@ const areArraysEqual = function (array1, array2) {
   return true;
 };
 
-const getLocation = function (element, array) {
+const locateGroup = function (element, array) {
   for (let index = 0; index < array.length; index++) {
     const groupFirstElement = array[index][0];
     if (areEqual(groupFirstElement, element)) {
@@ -32,20 +32,20 @@ const getLocation = function (element, array) {
   return -1;
 };
 
-const group = function (element, groups) {
-  const location = getLocation(element, groups);
-  if (location < 0) {
-    groups.push([element])
+const addToGroup = function (groups, element) {
+  let groupIndex = locateGroup(element, groups);
+  if (groupIndex < 0) {
+    groups.push([element]);
     return groups;
   }
-  groups[location].push(element);
+  groups[groupIndex].push(element);
   return groups;
 };
 
 const groupBy = function (array) {
   const groups = [];
   for (let index = 0; index < array.length; index++) {
-    group(array[index], groups);
+    addToGroup(groups, array[index]);
   }
   return groups;
 };
